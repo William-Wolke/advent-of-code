@@ -1,6 +1,5 @@
 def main():
     left_list, right_list = [], []
-    differences = []
     total_diff = 0
     with open('input.txt') as f:
         while True:
@@ -16,9 +15,7 @@ def main():
         sorted_left = sorted(left_list)
         sorted_right = sorted(right_list)
         for i in range(len(sorted_left)):
-            differences.append(abs(sorted_left[i] - sorted_right[i]))
-        for number in differences:
-            total_diff += number
+            total_diff += abs(sorted_left[i] - sorted_right[i])
         print(total_diff)
 
 
