@@ -1,4 +1,3 @@
-
 def main():
     num_safe_reports = 0
     num_lines = 0
