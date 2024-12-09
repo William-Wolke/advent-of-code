@@ -4,6 +4,11 @@ class Program
 {
     static void Main(string[] args)
     {
+        Part1();
+        Part2();
+    }
+    static void Part1()
+    {
         StreamReader sr = new StreamReader("./input.txt");
         List<Char[]> grid = new List<Char[]>();
         String? line;
@@ -83,5 +88,74 @@ class Program
     static Boolean CheckXmas(Char v1, Char v2, Char v3, Char v4)
     {
         return v1.ToString() + v2.ToString() + v3.ToString() + v4.ToString() == "XMAS";
+    }
+    static void Part2()
+    {
+        StreamReader sr = new StreamReader("./input.txt");
+        List<Char[]> grid = new List<Char[]>();
+        String? line;
+        line = sr.ReadLine();
+        while (line != null)
+        {
+            Char[] lineArr = line.ToCharArray();
+            if (lineArr.Length > 0)
+            {
+                grid.Add(lineArr);
+            }
+            line = sr.ReadLine();
+        }
+        Int32 count = 0;
+        Int32 y = 0;
+        foreach (Char[] row in grid)
+        {
+            Int32 x = 0;
+            foreach (Char item in row)
+            {
+                Int32 xmasCount = GetMasCount(grid, x, y);
+                if (xmasCount > 0)
+                {
+                    count += xmasCount;
+                }
+                x++;
+            }
+            y++;
+        }
+        Console.WriteLine(count);
+    }
+    static Int32 GetMasCount(List<Char[]> grid, Int32 x, Int32 y)
+    {
+        if (grid[x][y] != 'A')
+        {
+            return 0;
+        }
+        Boolean checkLeft = x >= 1;
+        Boolean checkRight = x + 1 < grid[y].Length;
+        Boolean checkTop = y >= 1;
+        Boolean checkBottom = y + 1 < grid.Count;
+        if (!checkLeft || !checkRight || !checkTop || !checkBottom)
+        {
+            return 0;
+        }
+        if (!CheckMas(grid[x-1][y-1], grid[x][y], grid[x+1][y+1]))
+        {
+            return 0;
+        }
+        if (!CheckMas(grid[x-1][y+1], grid[x][y], grid[x+1][y-1]))
+        {
+            return 0;
+        }
+        return 1;
+    }
+
+    static Boolean CheckMas(Char v1, Char v2, Char v3)
+    {
+        Char[] arr = new Char[3];
+        arr[0] = v1;
+        arr[1] = v2;
+        arr[2] = v3;
+        String str = new String(arr);
+        Array.Reverse(arr);
+        String revStr = new String(arr);
+        return str == "MAS" || revStr == "MAS";
     }
 }
